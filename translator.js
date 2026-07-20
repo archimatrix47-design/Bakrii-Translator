@@ -4552,6 +4552,12 @@ document.addEventListener('DOMContentLoaded', () => {
     dstTa.value = out;
     const dir = isSbs ? 'SBS → Latin' : 'Latin → SBS';
     setStatus('ok', `Transliterated (${dir}) – ${src.length} source chars → ${out.length} result chars.`);
+
+    if (typeof saveHistory === 'function') {
+      saveHistory(src, out);
+    } else {
+      document.dispatchEvent(new CustomEvent('bakrii-transliterated', { detail: { src, dst: out } }));
+    }
   }
 
   function validate() {

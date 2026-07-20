@@ -3,184 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About - Bakrii Transliterate</title>
+  <title>About — Bakrii Transliterate</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <meta name="description" content="Learn about Bakrii Transliterate - a transliteration tool for converting between Latin Qubee and the Sheek Bakrii script.">
-  <meta property="og:title" content="About - Bakrii Transliterate">
-  <meta property="og:description" content="Discover the Sheek Bakrii script and the Unicode proposal by Oreen Yousuf & Daniel Yacob.">
+  <meta name="description" content="About Bakrii Transliterate — a transliteration tool for converting between Latin Qubee and the Sheek Bakrii script.">
+  <meta property="og:title" content="About — Bakrii Transliterate">
+  <meta property="og:description" content="The story behind the Sheek Bakrii script and the Unicode proposal by Oreen Yousuf & Daniel Yacob.">
   <meta property="og:type" content="website">
+  <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Ethiopic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    :root {
-      --bg: #0f0f13;
-      --bg-card: #1a1a24;
-      --bg-card-hover: #1f1f2b;
-      --surface: #24243a;
-      --border: #2a2a40;
-      --text: #e8e8f0;
-      --text-secondary: #9090a8;
-      --text-muted: #60607a;
-      --accent: #4ade80;
-      --accent-hover: #22c55e;
-      --radius-sm: 8px;
-      --radius-md: 12px;
-      --radius-lg: 16px;
-      --radius-xl: 24px;
-      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .contour-bg {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      pointer-events: none;
-      opacity: 0.08;
-      filter: grayscale(100%) contrast(1.2) brightness(0.5);
-    }
-
-    .contour-bg svg {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    body {
-      font-family: 'Inter', 'Noto Sans Ethiopic', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      line-height: 1.5;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    .bg-gradient {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      overflow: hidden;
-    }
-
-    .bg-gradient::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(ellipse at 20% 20%, rgba(74, 222, 128, 0.10) 0%, transparent 50%),
-                  radial-gradient(ellipse at 80% 80%, rgba(34, 197, 94, 0.06) 0%, transparent 50%);
-      animation: bgShift 20s ease-in-out infinite alternate;
-    }
-
-    @keyframes bgShift {
-      0% { transform: translate(0, 0) rotate(0deg); }
-      100% { transform: translate(2%, 2%) rotate(3deg); }
-    }
-
-    .navbar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 56px;
-      background: rgba(15, 15, 19, 0.72);
-      backdrop-filter: blur(24px) saturate(1.4);
-      -webkit-backdrop-filter: blur(24px) saturate(1.4);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .navbar-content {
-      max-width: 800px;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 20px;
-    }
-
-    .nav-logo {
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--text);
-      letter-spacing: -0.03em;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .nav-logo img {
-      height: 28px;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 4px;
-      list-style: none;
-    }
-
-    .nav-links a {
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text-secondary);
-      text-decoration: none;
-      padding: 6px 14px;
-      border-radius: var(--radius-sm);
-      transition: all var(--transition);
-    }
-
-    .nav-links a:hover,
-    .nav-links a.active {
-      color: var(--text);
-      background: rgba(255, 255, 255, 0.06);
-    }
-
-    .container {
-      max-width: 700px;
-      margin: 0 auto;
-      padding: 100px 20px 60px;
-    }
-
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    h1 {
-      font-size: 36px;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      background: linear-gradient(135deg, #86efac 0%, #4ade80 40%, #22c55e 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 4px;
-      line-height: 1.2;
+    .about-header {
+      margin-bottom: 40px;
       animation: fadeInUp 0.6s ease-out;
     }
 
-    .subtitle {
-      font-size: 16px;
-      font-weight: 400;
-      color: var(--text-secondary);
-      margin-bottom: 32px;
-      animation: fadeInUp 0.6s ease-out 0.05s both;
+    .about-header h1 {
+      margin-bottom: 4px;
+    }
+
+    .about-header .subtitle {
+      margin-bottom: 0;
     }
 
     .about-card {
@@ -188,6 +30,7 @@
       border: 1px solid var(--border);
       border-radius: var(--radius-xl);
       padding: 32px;
+      margin-bottom: 16px;
       animation: fadeInUp 0.6s ease-out 0.1s both;
     }
 
@@ -202,12 +45,26 @@
     .about-card p {
       font-size: 14px;
       color: var(--text-secondary);
-      margin-bottom: 16px;
+      margin-bottom: 14px;
       line-height: 1.7;
     }
 
     .about-card p:last-child {
       margin-bottom: 0;
+    }
+
+    .about-card strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .about-card code {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 12px;
+      color: var(--accent);
     }
 
     .pdf-link {
@@ -228,324 +85,94 @@
     .pdf-link:hover {
       background: var(--accent-hover);
       transform: translateY(-1px);
-      box-shadow: 0 2px 16px rgba(124, 92, 252, 0.3);
+      box-shadow: 0 2px 16px rgba(74, 222, 128, 0.3);
+    }
+
+    .char-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 13px;
+    }
+
+    .char-table th {
+      text-align: left;
+      padding: 8px 12px;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .char-table td {
+      padding: 8px 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      color: var(--text-secondary);
+    }
+
+    .char-table td:first-child {
+      font-family: 'SheekBakriSaphaloo', 'Noto Sans Ethiopic', sans-serif;
+      font-size: 18px;
+      color: var(--text);
+    }
+
+    .char-table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
     }
 
     .back-link {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      margin-top: 20px;
+      margin-top: 8px;
       color: var(--text-secondary);
       text-decoration: none;
       font-size: 13px;
       font-weight: 500;
       transition: color var(--transition);
+      animation: fadeInUp 0.6s ease-out 0.2s both;
     }
 
     .back-link:hover {
       color: var(--text);
     }
 
-    .skip-link {
-      position: absolute;
-      left: -9999px;
-      padding: 12px 24px;
-      background: var(--accent);
-      color: white;
-      text-decoration: none;
-      z-index: 9999;
-      border-radius: var(--radius-sm);
-      font-size: 14px;
-      font-weight: 500;
-    }
-
-    .skip-link:focus {
-      position: fixed;
-      left: 50%;
-      top: 10px;
-      transform: translateX(-50%);
-    }
-
-    a:focus-visible {
-      outline: 2px solid var(--accent);
-      outline-offset: 2px;
-    }
-
     @media (max-width: 320px) {
-      h1 {
-        font-size: 20px;
-        letter-spacing: -0.01em;
-      }
-
-      .container {
-        padding: 64px 12px 32px;
-      }
-
-      .about-card {
-        padding: 10px;
-        border-radius: var(--radius-md);
-      }
-
-      .about-card h2 {
-        font-size: 12px;
-        margin-bottom: 8px;
-      }
-
-      .about-card p {
-        font-size: 11px;
-        line-height: 1.5;
-      }
-
-      .navbar-content {
-        padding: 0 8px;
-      }
-
-      .nav-links {
-        gap: 2px;
-      }
-
-      .nav-links a {
-        padding: 4px 6px;
-        font-size: 10px;
-      }
-
-      .pdf-link {
-        width: 100%;
-        justify-content: center;
-        padding: 8px 10px;
-        font-size: 10px;
-        min-height: 40px;
-        gap: 4px;
-      }
-
-      .modal-content {
-        padding: 10px;
-        margin: 4px;
-      }
-
-      .modal-content h2 {
-        font-size: 15px;
-      }
-
-      .modal-content p {
-        font-size: 12px;
-      }
+      .about-card { padding: 10px; border-radius: var(--radius-md); }
+      .about-card h2 { font-size: 12px; margin-bottom: 8px; }
+      .about-card p { font-size: 11px; line-height: 1.5; }
+      .char-table { font-size: 11px; }
+      .char-table th, .char-table td { padding: 6px 8px; }
     }
 
     @media (max-width: 375px) {
-      h1 {
-        font-size: 22px;
-        letter-spacing: -0.02em;
-      }
-
-      .container {
-        padding: 72px 14px 36px;
-      }
-
-      .about-card {
-        padding: 12px;
-        border-radius: var(--radius-lg);
-      }
-
-      .about-card h2 {
-        font-size: 13px;
-      }
-
-      .about-card p {
-        font-size: 12px;
-      }
-
-      .pdf-link {
-        width: 100%;
-        justify-content: center;
-        padding: 8px 12px;
-        font-size: 11px;
-        min-height: 44px;
-        gap: 4px;
-      }
+      .about-card { padding: 12px; border-radius: var(--radius-lg); }
+      .about-card h2 { font-size: 13px; }
+      .about-card p { font-size: 12px; }
     }
 
     @media (max-width: 414px) {
-      h1 {
-        font-size: 24px;
-        letter-spacing: -0.02em;
-      }
-
-      .container {
-        padding: 80px 16px 40px;
-      }
-
-      .about-card {
-        padding: 14px;
-      }
-
-      .about-card h2 {
-        font-size: 14px;
-      }
-
-      .about-card p {
-        font-size: 12px;
-      }
-
-      .nav-links a {
-        padding: 6px 8px;
-        font-size: 11px;
-      }
-
-      .pdf-link {
-        padding: 10px 14px;
-        font-size: 12px;
-      }
+      .about-card { padding: 14px; }
+      .about-card h2 { font-size: 14px; }
+      .about-card p { font-size: 12px; }
     }
 
     @media (max-width: 768px) {
-      h1 {
-        font-size: 28px;
-      }
-
-      .container {
-        padding: 84px 16px 40px;
-      }
-
-      .about-card {
-        padding: 24px;
-        border-radius: var(--radius-lg);
-      }
-
-      .navbar-content {
-        padding: 0 12px;
-      }
-
-      .nav-logo img {
-        height: 24px;
-      }
-
-      .nav-links a {
-        padding: 6px 10px;
-        font-size: 12px;
-      }
-
-      .modal-content {
-        margin: 12px;
-        padding: 20px;
-        max-width: 100%;
-      }
-    }
-
-    .footer {
-      text-align: center;
-      padding: 32px 20px;
-      color: var(--text-muted);
-      font-size: 12px;
-    }
-
-    .footer a {
-      color: var(--text-secondary);
-      text-decoration: none;
-      transition: color var(--transition);
-    }
-
-    .footer a:hover {
-      color: var(--text);
-    }
-
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 2000;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .modal.show {
-      display: flex;
-    }
-
-    .modal-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(4px);
-    }
-
-    .modal-content {
-      position: relative;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      padding: 28px;
-      border-radius: var(--radius-xl);
-      max-width: 420px;
-      margin: 20px;
-      box-shadow: 0 32px 64px rgba(0, 0, 0, 0.5);
-      animation: fadeIn 0.2s ease-out;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    .modal-close {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      width: 32px;
-      height: 32px;
-      border: none;
-      background: rgba(255, 255, 255, 0.06);
-      border-radius: 50%;
-      font-size: 18px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text-secondary);
-      transition: all var(--transition);
-    }
-
-    .modal-close:hover {
-      background: rgba(255, 255, 255, 0.12);
-      color: var(--text);
-    }
-
-    .modal-content h2 {
-      font-size: 20px;
-      font-weight: 700;
-      margin-bottom: 12px;
-      color: var(--text);
-      letter-spacing: -0.02em;
-    }
-
-    .modal-content p {
-      margin-bottom: 8px;
-      color: var(--text-secondary);
-      line-height: 1.6;
-      font-size: 14px;
-    }
-
-    .modal-content p:last-child {
-      margin-bottom: 0;
+      .about-card { padding: 24px; border-radius: var(--radius-lg); }
     }
   </style>
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to content</a>
   <div class="bg-gradient" aria-hidden="true"></div>
-  <div class="contour-bg" aria-hidden="true">
-    <svg xmlns="http://www.w3.org/2000/svg" width="2423.8577722279006" height="1572.4668701550163" baseProfile="full" version="1.1" viewBox="60721.410803,-15475.841881,2423.857772,1572.466870"><defs><style type="text/css">polyline,line,rect,path,polygon,.polygon{fill:none;stroke:#000;stroke-width:1px;stroke-linejoin:round;}</style></defs><g transform="scale(1,-1)"><g id="contours" class="ID ELEV"><polyline points="62713.95792818706,15475.841880926788 62713.95792818706,15471.498049793763 62715.22929339672,15470.050106082754 62715.735370810275,15471.498049793763 62715.735370810275,15475.841880926788" class="contours" style="fill:none;stroke:#000;stroke-width:1px;stroke-linejoin:round"/><polyline points="61069.312187719646,15475.841880926788 61069.312187719646,15471.498049793763 61064.57346284726,15470.898900671966 61062.091273628386,15471.498049793763 61062.091273628386,15475.841880926788" class="contours" style="fill:none;stroke:#000;stroke-width:1px;stroke-linejoin:round"/><polyline points="60764.282527999014,15475.841880926788 60764.282527999014,15471.498049793763 60760.505283535516,15470.729230124201 60751.81762126947,15470.297315984635 60743.12995900342,15469.89769095528 60734.44229673737,15470.959876025068 60725.75463447131,15471.208461051561 60721.410803338294,15471.208461051561" class="contours" style="fill:none;stroke:#000;stroke-width:1px;stroke-linejoin:round"/><polyline points="61786.4048798221,15475.841880926788 61786.4048798221,15471.498049793763 61785.64943092939,15470.532753986423 61776.96176866335,15464.399594039796 61768.27410639729,15465.02277357062 61761.95580656744,15471.498049793763 61761.95580656744,15475.841880926788" class="contours" style="fill:none;stroke:#000;stroke-width:1px;stroke-linejoin:round"/><polyline points="61780.33198247345,15475.841880926788 61780.33198247345,15471.498049793763 61776.96176866335,15469.114240025638 61768.27410639729,15469.825270102783 61766.64187894125,15471.498049793763 61766.64187894125,15475.841880926788" class="contours" style="fill:none;stroke:#000;stroke-width:1px;stroke-linejoin:round"/><polyline points="61425.44353178859,15475.841880926788 61425.44353178859,15469.825270102783 61425.948538922846,15469.114240025638 61434.6362011889,15468.719358851202 61443.32386345495,15468.70350396615 61447.66769458797,15470.532753986423 61452.01152572099,15471.498049793763 61452.01152572099,15475.841880926788" class="contours" style="fill:none;stroke:#000;stroke-width:1px;stroke-linejoin:round"/><polyline points="61161.23797529016,15475.841880926788 61161.23797529016,15471.498049793763 61157.78197150631,15470.050106082754 61152.33887837881,15469.114240025638 61143.65121611276,15468.719358851202 61134.96355384671,15468.70350396615 61130.61972271369,15470.050106082754 61128.13753349481,15471.498049793763 61128.13753349481,15475.841880926788" class="contours" style="fill:none;stroke:#000;stroke-width:1px;stroke-linejoin:round"/><polyline points="61907.94901385191,15475.841880926788 61907.94901385191,15471.498049793763 61907.19356495919,15470.532753986423 61898.50590269314,15469.114240025638 61889.81824042709,15468.719358851202 61881.13057816104,15468.70350396615 61877.468763134545,15469.114240025638 61872.444512895136,15470.050106082754 61864.43726973556,15471.498049793763 61864.43726973556,15475.841880926788" class="contours" style="fill:none;stroke:#000;stroke-width:1px;stroke-linejoin:round"/><polyline points="62018.18088969788,15475.841880926788 62018.18088969788,15471.498049793763 62009.49322743183,15470.050106082754 62000.80556516578,15468.719358851202 61992.11790289973,15468.70350396615 61983.43024063368,15468.719358851202 61979.09067058591,15469.114240025638 61974.74257816748,15470.050106082754 61966.05491590143,15471.498049793763 61966.05491590143,15475.841880926788" class="contours" style="fill:none;stroke:#000;stroke-width:1px;stroke-linejoin:round"/><polyline points="62128.41276554386,15475.841880926788 62128.41276554386,15471.498049793763 62119.72510327781,15470.050106082754 62111.03744101176,15468.719358851202 62102.34977874571,15468.70350396615 62093.66211647966,15468.719358851202 62084.974454213605,15468.70350396615 62076.286791947555,15468.719358851202 62072.625547199414,15469.114240025638 62067.59912968136,15470.050106082754 62060.9129870442,15471.498049793763 62060.9129870442,15475.841880926788" class="contours" style="fill:none;stroke:#000;stroke-width:1px;stroke-linejoin:round"/><polyline points="62238.64464138984,15475.841880926788 62238.64464138984,15471.498049793763 62229.95697912379,15470.050106082754 62221.26931685774,15468.719358851202 62212.58165459169,15468.70350396615 62203.89399232564,15468.719358851202 62195.206330059585,15468.70350396615 62186.518667793535,15468.719358851202 62182.857423045394,15469.114240025638 62177.83100552734,15470.050106082754 62171.14486289018,15471.498049793763 62171.14486289018,15475.841880926788" class="contours" style="fill:none;stroke:#000;stroke-width:1px;stroke-linejoin:round"/><polyline points="62348.87651723582,15475.841880926788 62348.87651723582,15471.498049793763 62340.18885496977,15470.050106082754 62331.50119270372,15468.719358851202 62322.81353043767,15468.70350396615 62314.125868171615,15468.719358851202 62305.438205905565,15468.70350396615 62296.750543639515,15468.719358851202 62293.089298891374,15469.114240025638 62288.06288137332,15470.050106082754 62281.37673873616,15471.498049793763 62281.37673873616,15475.841880926788" class="contours" style="fill:none;stroke:#000;stroke-width:1px;stroke-linejoin:round"/><polyline points="62459.1083930818,15475.841880926788 62459.1083930818,15471.498049793763 62450.42073081575,15470.050106082754 62441.7330685497,15468.719358851202 62433.04540628365,15468.70350396615 62424.357744017595,15468.719358851202 62415.670081751545,15468.70350396615 62406.982419485495,15468.719358851202 62403.321174737354,15469.114240025638 62398.2947572193,15470.050106082754 62391.60861458214,15471.498049793763 62391.60861458214,15475.841880926788" class="contours" style="fill:none;stroke:#000;stroke-width:1px;stroke-linejoin:round"/><polyline points="62569.34026892778,15475.841880926788 62569.34026892778,15471.498049793763 62560.65260666173,15470.050106082754 62551.96494439568,15468.719358851202 62543.27728212963,15468.70350396615 62534.589619863575,15468.719358851202 62525.901957597525,15468.70350396615 62517.214295331475,15468.719358851202 62513.553050583334,15469.114240025638 62508.52663306528,15470.050106082754 62501.84049042812,15471.498049793763 62501.84049042812,15475.841880926788" class="contours" style="fill:none;stroke:#000;stroke-width:1px;stroke-linejoin:round"/><polyline points="62679.57214477376,15475.841880926788 62679.57214477376,15471.498049793763 62670.88448250771,15470.050106082754 62662.19682024166,15468.719358851202 62653.50915797561,15468.70350396615 62644.821495709555,15468.719358851202 62636.133833443505,15468.70350396615 62627.446171177455,15468.719358851202 62623.784926429314,15469.114240025638 62618.75850891126,15470.050106082754 62612.0723662741,15471.498049793763 62612.0723662741,15475.841880926788" class="contours" style="fill:none;stroke:#000;stroke-width:1px;stroke-linejoin:round"/><polyline points="60721.410803338294,15398.10005068329 60721.410803338294,15393.756219550265 60725.75463447131,15392.308275839256 60734.44229673737,15391.372409782164 60743.12995900342,15390.97752860773 60751.81762126947,15390.961673722677 60755.47943601705,15391.372409782164 60760.505283535516,15392.308275839256 60763.667891860844,15393.756219550265 60764.282527999014,15395.204163261274 60764.282527999014,15398.10005068329" class="contours" style="fill:none;stroke:#000;stroke-width:1px;stroke-linejoin:round"/></g></g></svg>
-  </div>
+
   <nav class="navbar">
     <div class="navbar-content">
-      <a href="translator.html" class="nav-logo"><img src="logo.svg" alt="Bakrii Transliterate"></a>
+      <a href="index.html" class="nav-logo"><img src="logo.svg" alt="Bakrii"></a>
       <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
         <li><a href="translator.html">Translate</a></li>
         <li><a href="about.html" class="active">About</a></li>
       </ul>
@@ -553,47 +180,89 @@
   </nav>
 
   <div class="container" id="main">
-    <h1>About</h1>
-    <p class="subtitle">Bakrii Transliterate</p>
+    <div class="about-header">
+      <h1>About</h1>
+      <p class="subtitle">Bakrii Transliterate</p>
+    </div>
 
     <div class="about-card">
-      <h2>Purpose</h2>
+      <h2>What is this?</h2>
       <p>
-        Sheek Bakrii Saphaloo is a transliteration tool designed to help speakers 
-        of Afar and related Oromo dialects convert text between Latin Qubee (Latin script) and 
-        Sheek Bakrii Saphaloo (Ethiopian script).
+        A transliteration tool for the Sheek Bakrii Saphaloo script — a writing system
+        used for Afar and related Oromo dialects. Type in Latin Qubee, get Sheek Bakrii.
+        Paste Sheek Bakrii, get Latin Qubee. It all happens in your browser. Nothing
+        leaves your device.
       </p>
-      <p>
-        This tool is built for researchers, students, language enthusiasts, and anyone interested 
-        in preserving and sharing the Sheek Bakrii script in the digital age.
-      </p>
+    </div>
 
-      <h2>Credits & Inspiration</h2>
+    <div class="about-card">
+      <h2>Why does it exist?</h2>
       <p>
-        This project was inspired by the research and documentation of 
-        <strong>Oreen Yousuf & Daniel Yacob</strong> and their proposal for encoding 
-        the Sheek Bakrii Saphaloo script in the Unicode Standard.
+        Most scripts have good digital support. Sheek Bakrii doesn't — yet. The script
+        was proposed for inclusion in the Unicode Standard by <strong>Oreen Yousuf</strong> and
+        <strong>Daniel Yacob</strong>, but until it's widely supported, tools like this
+        help people actually use it day-to-day.
       </p>
       <p>
-        We acknowledge and thank the researchers who developed and codified this script. 
-        This tool is a simple implementation to help make the script more accessible.
+        This project started as a way to make the script more accessible to researchers,
+        students, and anyone who wants to write in their own language digitally.
       </p>
+    </div>
 
-      <h2>Research Documentation</h2>
+    <div class="about-card">
+      <h2>How it works</h2>
       <p>
-        For detailed information about the script, linguistic analysis, and methodology, 
-        please refer to the original research documentation below.
+        The transliteration engine maps Latin Qubee syllables to their Sheek Bakrii
+        equivalents. It handles consonant-vowel combinations, geminated (doubled)
+        vowels, and preserves spacing and punctuation. The mapping is based on the
+        official character table from the Unicode proposal.
       </p>
-      <a href="https://www.unicode.org/L2/L2024/24109-sheek-bakrii-saphaloo.pdf" class="pdf-link" target="_blank">
-        View Research PDF
+      <p>
+        Export uses <code>canvas</code> for PNG output and <code>opentype.js</code>
+        for true vector SVG export — no font installation required on the viewer's end.
+      </p>
+    </div>
+
+    <div class="about-card">
+      <h2>Character examples</h2>
+      <table class="char-table">
+        <thead>
+          <tr><th>Glyph</th><th>Latin</th><th>Name</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>በ</td><td>ba</td><td>Consonant + vowel</td></tr>
+          <tr><td>ቡ</td><td>bu</td><td>Consonant + vowel</td></tr>
+          <tr><td>ব</td><td>bi</td><td>Consonant + vowel</td></tr>
+          <tr><td>ቤ</td><td>be</td><td>Consonant + vowel</td></tr>
+          <tr><td>ቦ</td><td>bo</td><td>Consonant + vowel</td></tr>
+          <tr><td>ባ</td><td>baa</td><td>Geminated vowel</td></tr>
+          <tr><td>ቡ</td><td>buu</td><td>Geminated vowel</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="about-card">
+      <h2>Credits</h2>
+      <p>
+        Built on the research and documentation by <strong>Oreen Yousuf</strong> and
+        <strong>Daniel Yacob</strong>, whose proposal to encode Sheek Bakrii Saphaloo
+        in the Unicode Standard (L2/24-109) laid the groundwork for digital support of
+        this script.
+      </p>
+      <p>
+        The typeface used is SheekBakriSaphaloo, designed to render the full character
+        repertoire. Export rendering is powered by <code>opentype.js</code>.
+      </p>
+      <a href="https://www.unicode.org/L2/L2024/24109-sheek-bakrii-saphaloo.pdf" class="pdf-link" target="_blank" rel="noopener">
+        Read the Unicode proposal (PDF)
       </a>
     </div>
 
-    <a href="translator.html" class="back-link">← Back to Translator</a>
+    <a href="translator.html" class="back-link">← Try it out</a>
   </div>
 
   <footer class="footer">
-    <p>Works entirely offline &middot; <a href="translator.html">Translator</a> &middot; <a href="#" id="privacyLink">Privacy</a></p>
+    <p>Works entirely offline · <a href="translator.html">Translator</a> · <a href="#" id="privacyLink">Privacy</a></p>
   </footer>
 
   <div id="privacyModal" class="modal" aria-hidden="true">

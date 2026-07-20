@@ -3,202 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Transliterate seamlessly between Latin Qubee and Sheek Bakrii script - preserving and promoting the Oromo language.">
+  <meta name="description" content="Transliterate between Latin Qubee and Sheek Bakrii Saphaloo script. Runs entirely in your browser — no data leaves your device.">
   <meta property="og:title" content="Bakrii Transliterate">
   <meta property="og:description" content="Convert between Latin Qubee and Sheek Bakrii script for Oromo language preservation.">
   <meta property="og:type" content="website">
-  <title>Bakrii Transliterate ↔ Latin Qubee</title>
+  <title>Bakrii Transliterate</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="sbs-font-base64.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Ethiopic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    :root {
-      --bg: #0f0f13;
-      --bg-card: #1a1a24;
-      --bg-card-hover: #1f1f2b;
-      --surface: #24243a;
-      --border: #2a2a40;
-      --text: #e8e8f0;
-      --text-secondary: #9090a8;
-      --text-muted: #60607a;
-      --accent: #4ade80;
-      --accent-hover: #22c55e;
-      --accent-glow: rgba(74, 222, 128, 0.25);
-      --green: #4ade80;
-      --green-bg: rgba(74, 222, 128, 0.1);
-      --red: #f87171;
-      --red-bg: rgba(248, 113, 113, 0.1);
-      --radius-sm: 8px;
-      --radius-md: 12px;
-      --radius-lg: 16px;
-      --radius-xl: 24px;
-      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .contour-bg {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      pointer-events: none;
-      opacity: 0.12;
-      filter: invert(1) grayscale(1);
-    }
-
-    .contour-bg svg {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    body {
-      font-family: 'Inter', 'Noto Sans Ethiopic', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      line-height: 1.5;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-
-    .bg-gradient {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      overflow: hidden;
-    }
-
-    .bg-gradient::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(ellipse at 20% 20%, rgba(74, 222, 128, 0.10) 0%, transparent 50%),
-                  radial-gradient(ellipse at 80% 80%, rgba(34, 197, 94, 0.06) 0%, transparent 50%),
-                  radial-gradient(ellipse at 50% 50%, rgba(74, 222, 128, 0.03) 0%, transparent 50%);
-      animation: bgShift 20s ease-in-out infinite alternate;
-    }
-
-    @keyframes bgShift {
-      0% { transform: translate(0, 0) rotate(0deg); }
-      100% { transform: translate(2%, 2%) rotate(3deg); }
-    }
-
-    .navbar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 56px;
-      background: rgba(15, 15, 19, 0.72);
-      backdrop-filter: blur(24px) saturate(1.4);
-      -webkit-backdrop-filter: blur(24px) saturate(1.4);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .navbar-content {
-      max-width: 800px;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 20px;
-    }
-
-    .nav-logo {
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--text);
-      letter-spacing: -0.03em;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .nav-logo img {
-      height: 28px;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 4px;
-      list-style: none;
-    }
-
-    .nav-links a {
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text-secondary);
-      text-decoration: none;
-      padding: 6px 14px;
-      border-radius: var(--radius-sm);
-      transition: all var(--transition);
-    }
-
-    .nav-links a:hover,
-    .nav-links a.active {
-      color: var(--text);
-      background: rgba(255, 255, 255, 0.06);
-    }
-
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 100px 20px 60px;
-    }
-
     .hero {
       text-align: center;
       margin-bottom: 48px;
       animation: fadeInUp 0.6s ease-out;
-    }
-
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    h1 {
-      font-size: 44px;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      background: linear-gradient(135deg, #86efac 0%, #4ade80 40%, #22c55e 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 8px;
-      line-height: 1.2;
-    }
-
-    .subtitle {
-      font-size: 16px;
-      font-weight: 400;
-      color: var(--text-secondary);
-      max-width: 480px;
-      margin: 0 auto;
     }
 
     .translator-card {
@@ -287,6 +105,20 @@
       text-transform: uppercase;
       letter-spacing: 0.06em;
       margin-bottom: 6px;
+    }
+
+    .label-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .char-count {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 400;
+      text-transform: none;
+      letter-spacing: 0;
     }
 
     .textarea-wrapper {
@@ -386,6 +218,17 @@
       border-color: rgba(255, 255, 255, 0.12);
     }
 
+    #copyBtn {
+      background: transparent;
+      color: var(--text-secondary);
+      border: 1px solid transparent;
+    }
+
+    #copyBtn:hover {
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text);
+    }
+
     #clearBtn {
       background: transparent;
       color: var(--text-secondary);
@@ -406,17 +249,6 @@
     #saveBtn:hover {
       background: var(--bg-card-hover);
       border-color: rgba(255, 255, 255, 0.12);
-    }
-
-    #shareBtn {
-      background: transparent;
-      color: var(--text-secondary);
-      border: 1px solid transparent;
-    }
-
-    #shareBtn:hover {
-      background: rgba(255, 255, 255, 0.04);
-      color: var(--text);
     }
 
     .save-dropdown {
@@ -475,7 +307,7 @@
     }
 
     .info-box:empty::before {
-      content: 'Validation results will appear here';
+      content: 'Validation results appear here';
       color: var(--text-muted);
       font-style: italic;
     }
@@ -540,330 +372,130 @@
       border: 1px solid rgba(52, 211, 153, 0.15);
     }
 
-    .divider {
-      height: 1px;
-      background: var(--border);
-      margin: 20px 0;
+    .history-section {
+      margin-top: 32px;
+      animation: fadeInUp 0.6s ease-out 0.2s both;
     }
 
-    .footer {
-      text-align: center;
-      padding: 32px 20px;
-      color: var(--text-muted);
-      font-size: 12px;
+    .history-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
     }
 
-    .footer a {
-      color: var(--text-secondary);
-      text-decoration: none;
-      transition: color var(--transition);
-    }
-
-    .footer a:hover {
-      color: var(--text);
-    }
-
-    .skip-link {
-      position: absolute;
-      left: -9999px;
-      padding: 12px 24px;
-      background: var(--accent);
-      color: white;
-      text-decoration: none;
-      z-index: 9999;
-      border-radius: var(--radius-sm);
+    .history-header h2 {
       font-size: 14px;
-      font-weight: 500;
-    }
-
-    .skip-link:focus {
-      position: fixed;
-      left: 50%;
-      top: 10px;
-      transform: translateX(-50%);
-    }
-
-    .font-btn:focus-visible,
-    button:focus-visible {
-      outline: 2px solid var(--accent);
-      outline-offset: 2px;
-    }
-
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 2000;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .modal.show {
-      display: flex;
-    }
-
-    .modal-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(4px);
-    }
-
-    .modal-content {
-      position: relative;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      padding: 28px;
-      border-radius: var(--radius-xl);
-      max-width: 420px;
-      margin: 20px;
-      box-shadow: 0 32px 64px rgba(0, 0, 0, 0.5);
-      animation: fadeIn 0.2s ease-out;
-    }
-
-    .modal-close {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      width: 32px;
-      height: 32px;
-      border: none;
-      background: rgba(255, 255, 255, 0.06);
-      border-radius: 50%;
-      font-size: 18px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      font-weight: 600;
       color: var(--text-secondary);
+      letter-spacing: -0.01em;
+    }
+
+    .history-clear {
+      font-size: 11px;
+      color: var(--text-muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 4px;
       transition: all var(--transition);
     }
 
-    .modal-close:hover {
-      background: rgba(255, 255, 255, 0.12);
+    .history-clear:hover {
+      color: var(--red);
+      background: var(--red-bg);
+    }
+
+    .history-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .history-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      cursor: pointer;
+      transition: all var(--transition);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .history-item:hover {
+      border-color: rgba(255, 255, 255, 0.12);
+      background: var(--bg-card-hover);
+    }
+
+    .history-text {
+      font-size: 13px;
       color: var(--text);
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
-    .modal-content h2 {
-      font-size: 20px;
-      font-weight: 700;
-      margin-bottom: 12px;
-      color: var(--text);
-      letter-spacing: -0.02em;
+    .history-time {
+      font-size: 11px;
+      color: var(--text-muted);
+      white-space: nowrap;
     }
 
-    .modal-content p {
-      margin-bottom: 8px;
-      color: var(--text-secondary);
-      line-height: 1.6;
-      font-size: 14px;
-    }
-
-    .modal-content p:last-child {
-      margin-bottom: 0;
+    .history-empty {
+      text-align: center;
+      padding: 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      font-style: italic;
     }
 
     @media (max-width: 320px) {
-      h1 {
-        font-size: 22px;
-        letter-spacing: -0.01em;
-      }
-
-      .subtitle {
-        font-size: 11px;
-        margin-bottom: 20px;
-      }
-
-      .container {
-        padding: 64px 12px 32px;
-      }
-
-      .translator-card {
-        padding: 12px;
-        border-radius: var(--radius-md);
-      }
-
-      .hero {
-        margin-bottom: 20px;
-      }
-
-      button {
-        padding: 12px 14px;
-        font-size: 13px;
-        min-height: 44px;
-        gap: 4px;
-      }
-
-      .toolbar {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 12px;
-      }
-
-      textarea {
-        min-height: 72px;
-        font-size: 15px !important;
-        padding: 8px 10px;
-        line-height: 1.4;
-      }
-
-      .font-btn {
-        padding: 6px;
-        font-size: 13px;
-      }
-
-      .info-box {
-        font-size: 11px;
-        padding: 10px;
-        min-height: 36px;
-        line-height: 1.4;
-      }
-
-      .modal-content {
-        margin: 6px;
-        padding: 14px;
-      }
-
-      .modal-content h2 {
-        font-size: 16px;
-      }
+      .translator-card { padding: 12px; border-radius: var(--radius-md); }
+      .hero { margin-bottom: 20px; }
+      button { padding: 12px 14px; font-size: 13px; min-height: 44px; gap: 4px; }
+      .toolbar { flex-direction: column; align-items: stretch; gap: 12px; }
+      textarea { min-height: 72px; font-size: 15px !important; padding: 8px 10px; line-height: 1.4; }
+      .font-btn { padding: 6px; font-size: 13px; }
+      .info-box { font-size: 11px; padding: 10px; min-height: 36px; line-height: 1.4; }
     }
 
     @media (max-width: 375px) {
-      h1 {
-        font-size: 24px;
-        letter-spacing: -0.02em;
-      }
-
-      .subtitle {
-        font-size: 12px;
-        margin-bottom: 24px;
-      }
-
-      .container {
-        padding: 72px 14px 36px;
-      }
-
-      .translator-card {
-        padding: 14px;
-        border-radius: var(--radius-lg);
-      }
-
-      button {
-        padding: 12px 16px;
-        font-size: 13px;
-        min-height: 44px;
-      }
-
-      .font-btn {
-        padding: 7px;
-        font-size: 14px;
-      }
+      .translator-card { padding: 14px; border-radius: var(--radius-lg); }
+      button { padding: 12px 16px; font-size: 13px; min-height: 44px; }
+      .font-btn { padding: 7px; font-size: 14px; }
     }
 
     @media (max-width: 414px) {
-      h1 {
-        font-size: 26px;
-        letter-spacing: -0.02em;
-      }
-
-      .subtitle {
-        font-size: 13px;
-        margin-bottom: 28px;
-      }
-
-      .container {
-        padding: 80px 16px 40px;
-      }
-
-      .translator-card {
-        padding: 16px;
-      }
-
-      button {
-        font-size: 14px;
-      }
-
-      .font-btn {
-        padding: 8px;
-        font-size: 15px;
-      }
-
-      .toolbar {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 14px;
-      }
-
-      textarea {
-        min-height: 80px;
-      }
-
-      .save-menu {
-        right: 0;
-        left: auto;
-        min-width: 180px;
-      }
-
-      .modal-content {
-        max-width: 100%;
-      }
+      .translator-card { padding: 16px; }
+      button { font-size: 14px; }
+      .font-btn { padding: 8px; font-size: 15px; }
+      .toolbar { flex-direction: column; align-items: stretch; gap: 14px; }
+      textarea { min-height: 80px; }
+      .save-menu { right: 0; left: auto; min-width: 180px; }
     }
 
     @media (max-width: 768px) {
-      h1 {
-        font-size: 32px;
-        letter-spacing: -0.02em;
-      }
-
-      .subtitle {
-        font-size: 14px;
-      }
-
-      .container {
-        padding: 84px 16px 40px;
-      }
-
-      .translator-card {
-        padding: 20px;
-        border-radius: var(--radius-lg);
-      }
-
-      button {
-        flex: 1;
-        min-width: 0;
-        justify-content: center;
-        font-size: 12px;
-        padding: 10px 12px;
-      }
-
-      .toolbar {
-        flex-direction: column;
-        align-items: stretch;
-      }
-
-      .font-controls {
-        justify-content: center;
-      }
+      .translator-card { padding: 20px; border-radius: var(--radius-lg); }
+      button { flex: 1; min-width: 0; justify-content: center; font-size: 12px; padding: 10px 12px; }
+      .toolbar { flex-direction: column; align-items: stretch; }
+      .font-controls { justify-content: center; }
     }
   </style>
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to content</a>
   <div class="bg-gradient" aria-hidden="true"></div>
-  <div class="contour-bg" aria-hidden="true">
-    <svg xmlns="http://www.w3.org/2000/svg" width="2423.8577722279006" height="1572.4668701550163" baseProfile="full" version="1.1" viewBox="60721.410803,-15475.841881,2423.857772,1572.466870"><defs><style type="text/css">polyline,line,rect,path,polygon,.polygon{fill:none;stroke:#000;stroke-width:1px;stroke-linejoin:round;}</style></defs><g transform="scale(1,-1)"><g id="contours" class="ID ELEV"><polyline points="62713.95792818706,15475.841880926788 62713.95792818706,15471.498049793763 62715.22929339672,15470.050106082754 62715.735370810275,15471.498049793763 62715.735370810275,15475.841880926788" class="contours" style="fill:none;stroke:#000;stroke-width:1px;stroke-linejoin:round"/><polyline points="61069.312187719646,15475.841880926788 61069.312187719646,15471.498049793763 61064.57346284726,15470.898900671966 61062.091273628386,15471.498049793763 61062.091273628386,15475.841880926788" class="contours" style="fill:none;stroke:#000;stroke-width:1px;stroke-linejoin:round"/><polyline points="60764.282527999014,15475.841880926788 60764.282527999014,15471.498049793763 60760.505283535516,15470.729230124201 60751.81762126947,15470.297315984635 60743.12995900342,15469.89769095528 60734.44229673737,15470.959876025068 60725.75463447131,15471.208461051561 60721.410803338294,15471.208461051561" class="contours" style="fill:none;stroke:#000;stroke-width:1px;stroke-linejoin:round"/><polyline points="61786.4048798221,15475.841880926788 61786.4048798221,15471.498049793763 61785.64943092939,15470.532753986423 61776.96176866335,15464.399594039796 61768.27410639729,15465.02277357062 61761.95580656744,15471.498049793763 61761.95580656744,15475.841880926788" class="contours" style="fill:none;stroke:#000;stroke-width:1px;stroke-linejoin:round"/><polyline points="61780.33198247345,15475.841880926788 61780.33198247345,15471.498049793763 61776.96176866335,15469.114240025638 61768.27410639729,15469.825270102783 61766.64187894125,15471.498049793763 61766.64187894125,15475.841880926788" class="contours" style="fill:none;stroke:#000;stroke-width:1px;stroke-linejoin:round"/><polyline points="61425.44353178859,15475.841880926788 61425.44353178859,15469.825270102783 61425.948538922846,15469.114240025638 61434.6362011889,15468.719358851202 61443.32386345495,15468.70350396615 61447.66769458797,15470.532753986423 61452.01152572099,15471.498049793763 61452.01152572099,15475.841880926788" class="contours" style="fill:none;stroke:#000;stroke-width:1px;stroke-linejoin:round"/><polyline points="61161.23797529016,15475.841880926788 61161.23797529016,15471.498049793763 61157.78197150631,15470.050106082754 61152.33887837881,15469.114240025638 61143.65121611276,15468.719358851202 61134.96355384671,15468.70350396615 61130.61972271369,15470.050106082754 61128.13753349481,15471.498049793763 61128.13753349481,15475.841880926788" class="contours" style="fill:none;stroke:#000;stroke-width:1px;stroke-linejoin:round"/><polyline points="61907.94901385191,15475.841880926788 61907.94901385191,15471.498049793763 61907.19356495919,15470.532753986423 61898.50590269314,15469.114240025638 61889.81824042709,15468.719358851202 61881.13057816104,15468.70350396615 61877.468763134545,15469.114240025638 61872.444512895136,15470.050106082754 61864.43726973556,15471.498049793763 61864.43726973556,15475.841880926788" class="contours" style="fill:none;stroke:#000;stroke-width:1px;stroke-linejoin:round"/><polyline points="62018.18088969788,15475.841880926788 62018.18088969788,15471.498049793763 62009.49322743183,15470.050106082754 62000.80556516578,15468.719358851202 61992.11790289973,15468.70350396615 61983.43024063368,15468.719358851202 61979.09067058591,15469.114240025638 61974.74257816748,15470.050106082754 61966.05491590143,15471.498049793763 61966.05491590143,15475.841880926788" class="contours" style="fill:none;stroke:#000;stroke-width:1px;stroke-linejoin:round"/><polyline points="62128.41276554386,15475.841880926788 62128.41276554386,15471.498049793763 62119.72510327781,15470.050106082754 62111.03744101176,15468.719358851202 62102.34977874571,15468.70350396615 62093.66211647966,15468.719358851202 62084.974454213605,15468.70350396615 62076.286791947555,15468.719358851202 62072.625547199414,15469.114240025638 62067.59912968136,15470.050106082754 62060.9129870442,15471.498049793763 62060.9129870442,15475.841880926788" class="contours" style="fill:none;stroke:#000;stroke-width:1px;stroke-linejoin:round"/><polyline points="62238.64464138984,15475.841880926788 62238.64464138984,15471.498049793763 62229.95697912379,15470.050106082754 62221.26931685774,15468.719358851202 62212.58165459169,15468.70350396615 62203.89399232564,15468.719358851202 62195.206330059585,15468.70350396615 62186.518667793535,15468.719358851202 62182.857423045394,15469.114240025638 62177.83100552734,15470.050106082754 62171.14486289018,15471.498049793763 62171.14486289018,15475.841880926788" class="contours" style="fill:none;stroke:#000;stroke-width:1px;stroke-linejoin:round"/><polyline points="62348.87651723582,15475.841880926788 62348.87651723582,15471.498049793763 62340.18885496977,15470.050106082754 62331.50119270372,15468.719358851202 62322.81353043767,15468.70350396615 62314.125868171615,15468.719358851202 62305.438205905565,15468.70350396615 62296.750543639515,15468.719358851202 62293.089298891374,15469.114240025638 62288.06288137332,15470.050106082754 62281.37673873616,15471.498049793763 62281.37673873616,15475.841880926788" class="contours" style="fill:none;stroke:#000;stroke-width:1px;stroke-linejoin:round"/><polyline points="62459.1083930818,15475.841880926788 62459.1083930818,15471.498049793763 62450.42073081575,15470.050106082754 62441.7330685497,15468.719358851202 62433.04540628365,15468.70350396615 62424.357744017595,15468.719358851202 62415.670081751545,15468.70350396615 62406.982419485495,15468.719358851202 62403.321174737354,15469.114240025638 62398.2947572193,15470.050106082754 62391.60861458214,15471.498049793763 62391.60861458214,15475.841880926788" class="contours" style="fill:none;stroke:#000;stroke-width:1px;stroke-linejoin:round"/><polyline points="62569.34026892778,15475.841880926788 62569.34026892778,15471.498049793763 62560.65260666173,15470.050106082754 62551.96494439568,15468.719358851202 62543.27728212963,15468.70350396615 62534.589619863575,15468.719358851202 62525.901957597525,15468.70350396615 62517.214295331475,15468.719358851202 62513.553050583334,15469.114240025638 62508.52663306528,15470.050106082754 62501.84049042812,15471.498049793763 62501.84049042812,15475.841880926788" class="contours" style="fill:none;stroke:#000;stroke-width:1px;stroke-linejoin:round"/><polyline points="62679.57214477376,15475.841880926788 62679.57214477376,15471.498049793763 62670.88448250771,15470.050106082754 62662.19682024166,15468.719358851202 62653.50915797561,15468.70350396615 62644.821495709555,15468.719358851202 62636.133833443505,15468.70350396615 62627.446171177455,15468.719358851202 62623.784926429314,15469.114240025638 62618.75850891126,15470.050106082754 62612.0723662741,15471.498049793763 62612.0723662741,15475.841880926788" class="contours" style="fill:none;stroke:#000;stroke-width:1px;stroke-linejoin:round"/><polyline points="60721.410803338294,15398.10005068329 60721.410803338294,15393.756219550265 60725.75463447131,15392.308275839256 60734.44229673737,15391.372409782164 60743.12995900342,15390.97752860773 60751.81762126947,15390.961673722677 60755.47943601705,15391.372409782164 60760.505283535516,15392.308275839256 60763.667891860844,15393.756219550265 60764.282527999014,15395.204163261274 60764.282527999014,15398.10005068329" class="contours" style="fill:none;stroke:#000;stroke-width:1px;stroke-linejoin:round"/></g></g></svg>
-  </div>
+
   <nav class="navbar">
     <div class="navbar-content">
-      <a href="translator.html" class="nav-logo"><img src="logo.svg" alt="Bakrii Transliterate"></a>
+      <a href="index.html" class="nav-logo"><img src="logo.svg" alt="Bakrii"></a>
       <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
         <li><a href="translator.html" class="active">Translate</a></li>
         <li><a href="about.html">About</a></li>
       </ul>
@@ -873,7 +505,7 @@
   <div class="container" id="main">
     <header class="hero">
       <h1>Bakrii Transliterate</h1>
-      <p class="subtitle">Convert between Latin Qubee and Sheek Bakrii script</p>
+      <p class="subtitle">Type in Latin Qubee, get Sheek Bakrii. Or the other way around.</p>
     </header>
 
     <div class="translator-card" id="translatorCard">
@@ -889,16 +521,19 @@
       </div>
 
       <div class="input-group">
-        <label for="src">Source</label>
+        <div class="label-row">
+          <label for="src">Source</label>
+          <span class="char-count" id="srcCount"></span>
+        </div>
         <div class="textarea-wrapper">
-          <textarea id="src" placeholder="Type Latin Qubee (e.g., maqaanaan) or paste SBS glyphs here..."></textarea>
+          <textarea id="src" placeholder="Type Latin Qubee here (e.g. maqaanaan)..."></textarea>
         </div>
       </div>
 
       <div class="button-group">
         <button id="goBtn">Transliterate</button>
         <button id="valBtn">Validate</button>
-        <button id="shareBtn">Share</button>
+        <button id="copyBtn">Copy</button>
         <button id="clearBtn">Clear</button>
         <div class="save-dropdown">
           <button id="saveBtn">Export ▾</button>
@@ -915,7 +550,10 @@
       </div>
 
       <div class="input-group">
-        <label for="dst">Result</label>
+        <div class="label-row">
+          <label for="dst">Result</label>
+          <span class="char-count" id="dstCount"></span>
+        </div>
         <div class="textarea-wrapper" id="resultWrapper">
           <textarea id="dst" readonly placeholder="Result will appear here..."></textarea>
         </div>
@@ -924,10 +562,18 @@
       <div id="infoBox"></div>
       <div id="statusBar" class="status-bar"></div>
     </div>
+
+    <div class="history-section" id="historySection">
+      <div class="history-header">
+        <h2>Recent</h2>
+        <button class="history-clear" id="historyClear">Clear all</button>
+      </div>
+      <div class="history-list" id="historyList"></div>
+    </div>
   </div>
 
   <footer class="footer">
-    <p>Works entirely offline &middot; <a href="about.html">About</a> &middot; <a href="#" id="privacyLink">Privacy</a></p>
+    <p>Works entirely offline · <a href="about.html">About</a> · <a href="#" id="privacyLink">Privacy</a></p>
   </footer>
 
   <div id="privacyModal" class="modal" aria-hidden="true">
@@ -940,6 +586,8 @@
       <p>No cookies, no tracking, no analytics.</p>
     </div>
   </div>
+
+  <div id="toast" class="toast"></div>
 
   <script src="opentype.min.js"></script>
   <script src="translator.js"></script>
@@ -962,11 +610,46 @@
       document.getElementById('fontValue').textContent = currentFontSize + 'px';
     }
 
+    const srcEl = document.getElementById('src');
+    const dstEl = document.getElementById('dst');
+
+    srcEl.addEventListener('input', function() {
+      const len = this.value.length;
+      document.getElementById('srcCount').textContent = len ? len + ' chars' : '';
+    });
+
+    dstEl.addEventListener('input', function() {
+      const len = this.value.length;
+      document.getElementById('dstCount').textContent = len ? len + ' chars' : '';
+    });
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2000);
+    }
+
+    document.getElementById('copyBtn').addEventListener('click', function() {
+      const text = dstEl.value;
+      if (!text) {
+        showToast('Nothing to copy yet');
+        return;
+      }
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('Copied to clipboard');
+      }).catch(() => {
+        dstEl.select();
+        document.execCommand('copy');
+        showToast('Copied to clipboard');
+      });
+    });
+
     document.getElementById('saveBtn').addEventListener('click', function(e) {
       e.stopPropagation();
-      const resultText = document.getElementById('dst').value;
+      const resultText = dstEl.value;
       if (!resultText) {
-        alert('No result to save. Please transliterate first.');
+        showToast('Transliterate something first');
         return;
       }
       document.getElementById('saveMenu').classList.toggle('show');
@@ -999,13 +682,10 @@
         '<': '&lt;', '>': '&gt;', '&': '&amp;', "'": '&apos;', '"': '&quot;'
       })[c]);
     }
-    
+
     function captureAndSave(format) {
-        const resultText = document.getElementById('dst').value;
-        if (!resultText) {
-          alert('No result to save. Please transliterate first.');
-          return;
-        }
+        const resultText = dstEl.value;
+        if (!resultText) return;
 
         const fontSize = currentFontSize;
         const padding = 30;
@@ -1041,7 +721,7 @@
 
         let targetWidth, targetHeight;
         const targetFormat = formats[format];
-        
+
         if (targetFormat) {
           targetWidth = targetFormat.width;
           targetHeight = targetFormat.height;
@@ -1055,14 +735,8 @@
         canvas.height = targetHeight;
         const ctx = canvas.getContext('2d');
 
-        ctx.fillStyle = '#ffffff';
+        ctx.fillStyle = '#0f0f13';
         ctx.fillRect(0, 0, targetWidth, targetHeight);
-
-        if (targetFormat) {
-          ctx.strokeStyle = '#f0f0f0';
-          ctx.lineWidth = 1;
-          ctx.strokeRect(0, 0, targetWidth, targetHeight);
-        }
 
         const scale = Math.min(
           (targetWidth * 0.8) / boxWidth,
@@ -1074,12 +748,14 @@
         ctx.scale(scale, scale);
         ctx.translate(-boxWidth / 2, -boxHeight / 2);
 
-        ctx.fillStyle = '#f5f5f7';
-        ctx.fillRect(0, 0, boxWidth, boxHeight);
+        ctx.fillStyle = '#1a1a24';
+        ctx.beginPath();
+        ctx.roundRect(0, 0, boxWidth, boxHeight, 12);
+        ctx.fill();
 
-        ctx.fillStyle = '#5d5d5f';
+        ctx.fillStyle = '#e8e8f0';
         ctx.font = fontSize + 'px "Noto Sans Ethiopic", "SheekBakriSaphaloo", sans-serif';
-        
+
         let y = contentPadding + fontSize;
         for (const line of lines) {
           ctx.fillText(line, contentPadding, y);
@@ -1088,30 +764,24 @@
 
         ctx.restore();
 
-        // SVG vector export is handled separately by exportVectorSVG()
         if (format === 'svg') {
           exportVectorSVG(resultText);
           return;
         }
 
         const link = document.createElement('a');
-        link.download = `sheek-bakrii-${format || 'original'}.png`;
+        link.download = 'sheek-bakrii-' + (format || 'original') + '.png';
         link.href = canvas.toDataURL('image/png');
         link.click();
       }
 
-    /* ── Vector SVG export via opentype.js ─────────────────────────
-       Produces true Bézier outlines — no font installation required.
-       Each SBS glyph → <path d="…">, Latin Qubee → <text> labels.
-    ──────────────────────────────────────────────────────────────── */
-    let _sbsFont = null; // cached parsed font
+    let _sbsFont = null;
 
     async function loadSbsFont() {
       if (_sbsFont) return _sbsFont;
       const cssText = await fetch('sbs-font-base64.css').then(r => r.text());
       const m = cssText.match(/base64,([A-Za-z0-9+/=]+)/);
       if (!m) throw new Error('Font base64 not found in sbs-font-base64.css');
-      // Decode base64 → Uint8Array → ArrayBuffer
       const bin = atob(m[1]);
       const buf = new Uint8Array(bin.length);
       for (let i = 0; i < bin.length; i++) buf[i] = bin.charCodeAt(i);
@@ -1122,24 +792,21 @@
     async function exportVectorSVG(sbsText) {
       const saveBtn = document.getElementById('saveBtn');
       const origLabel = saveBtn.textContent;
-      saveBtn.textContent = 'Generating SVG…';
+      saveBtn.textContent = 'Generating SVG\u2026';
       saveBtn.disabled = true;
 
       try {
         const font = await loadSbsFont();
-
-        // ── Layout ──────────────────────────────────────────────
         const FONT_SIZE  = 96;
         const PAD        = 28;
-        const LABEL_GAP  = 10;   // px below descender line
+        const LABEL_GAP  = 10;
         const LABEL_SIZE = 11;
         const upm        = font.unitsPerEm;
         const ascender   = (font.ascender  / upm) * FONT_SIZE;
         const descender  = Math.abs(font.descender / upm) * FONT_SIZE;
         const baseline   = PAD + ascender;
 
-        // ── Collect glyph data ───────────────────────────────────
-        const chars = [...sbsText];          // iterate by codepoint
+        const chars = [...sbsText];
         let cursorX = PAD;
         const glyphs = [];
 
@@ -1148,189 +815,58 @@
           if (!glyph) continue;
           const adv   = (glyph.advanceWidth / upm) * FONT_SIZE;
           const path  = font.getPath(ch, cursorX, baseline, FONT_SIZE);
-          // Get Latin equivalent for the label
-          const latin = (typeof sbsToLatin === 'function')
-            ? sbsToLatin(ch)
-            : ch;
+          const latin = (typeof sbsToLatin === 'function') ? sbsToLatin(ch) : ch;
           glyphs.push({ path, x: cursorX, adv, latin });
           cursorX += adv;
         }
 
         if (!glyphs.length) throw new Error('No glyphs could be rendered for this text.');
 
-        // ── Dimensions ──────────────────────────────────────────
         const totalW = cursorX + PAD;
         const labelY = baseline + descender + LABEL_GAP + LABEL_SIZE;
         const totalH = labelY + PAD;
 
-        // ── Compound path (all glyphs merged) ───────────────────
         const compoundD = glyphs
           .map(g => g.path.toPathData(3))
           .join(' ');
 
-        // ── Glyph separator lines (subtle, helpful in Illustrator)
         const separators = glyphs.slice(0, -1).map(g => {
           const lx = (g.x + g.adv).toFixed(2);
           const y1 = PAD.toFixed(2);
           const y2 = (baseline + descender).toFixed(2);
-          return `  <line x1="${lx}" y1="${y1}" x2="${lx}" y2="${y2}" stroke="#dddddd" stroke-width="0.5" stroke-dasharray="2,2"/>`;
+          return '  <line x1="' + lx + '" y1="' + y1 + '" x2="' + lx + '" y2="' + y2 + '" stroke="#dddddd" stroke-width="0.5" stroke-dasharray="2,2"/>';
         }).join('\n');
 
-        // ── Latin labels ─────────────────────────────────────────
-        const labelLines = glyphs.map(g => {
-          const cx = (g.x + g.adv / 2).toFixed(2);
-          return `    <text x="${cx}" y="${labelY.toFixed(2)}" text-anchor="middle" ` +
-            `font-family="Arial, Helvetica, sans-serif" font-size="${LABEL_SIZE}" fill="#999999">${escapeXml(g.latin)}</text>`;
+        const labels = glyphs.map(g => {
+          const cx = g.x + g.adv / 2;
+          const ly = baseline + descender + LABEL_GAP + LABEL_SIZE - 2;
+          return '  <text x="' + cx.toFixed(2) + '" y="' + ly.toFixed(2) + '" text-anchor="middle" font-family="Inter,sans-serif" font-size="' + LABEL_SIZE + '" fill="#999999">' + escapeXml(g.latin) + '</text>';
         }).join('\n');
 
-        // ── Baseline rule ────────────────────────────────────────
-        const baselineRule = `  <line x1="${PAD}" y1="${baseline.toFixed(2)}" x2="${(totalW - PAD).toFixed(2)}" ` +
-          `y2="${baseline.toFixed(2)}" stroke="#eeeeee" stroke-width="0.5"/>`;
+        const svg = [
+          '<?xml version="1.0" encoding="UTF-8"?>',
+          '<svg xmlns="http://www.w3.org/2000/svg" width="' + Math.ceil(totalW) + '" height="' + Math.ceil(totalH) + '" viewBox="0 0 ' + Math.ceil(totalW) + ' ' + Math.ceil(totalH) + '">',
+          '  <rect width="100%" height="100%" fill="#0f0f13"/>',
+          '  <path d="' + compoundD + '" fill="#e8e8f0"/>',
+          separators,
+          labels,
+          '</svg>'
+        ].join('\n');
 
-        // ── Assemble SVG ─────────────────────────────────────────
-        const latinSrc = glyphs.map(g => g.latin).join('');
-        const svg = `<?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Bakrii Translator <https://github.com/archimatrix47-design/Bakrii-Translator> -->
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1"
-     xmlns="http://www.w3.org/2000/svg"
-     xmlns:xlink="http://www.w3.org/1999/xlink"
-     viewBox="0 0 ${totalW.toFixed(2)} ${totalH.toFixed(2)}"
-     width="${totalW.toFixed(2)}"
-     height="${totalH.toFixed(2)}">
-  <title>${escapeXml(latinSrc)}</title>
-  <desc>Sheek Bakrii Saphaloo — vector outlines. Latin Qubee: ${escapeXml(latinSrc)}</desc>
-
-  <!-- Baseline & glyph separators (guides) -->
-${baselineRule}
-${separators}
-
-  <!-- SBS glyph outlines — compound path, editable as shapes in Illustrator -->
-  <path id="sbs-glyphs" d="${compoundD}" fill="#1a1a1a" fill-rule="nonzero"/>
-
-  <!-- Latin Qubee labels -->
-  <g id="qubee-labels">
-${labelLines}
-  </g>
-</svg>`;
-
-        // ── Trigger download ─────────────────────────────────────
-        const slug = latinSrc.replace(/\s+/g, '-').replace(/[^a-z0-9-]/gi, '').toLowerCase();
         const blob = new Blob([svg], { type: 'image/svg+xml' });
-        const url  = URL.createObjectURL(blob);
-        const a    = document.createElement('a');
-        a.href     = url;
-        a.download = `sbs-${slug || Date.now()}.svg`;
-        document.body.appendChild(a);
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'sheek-bakrii-vector-' + Date.now() + '.svg';
         a.click();
-        setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 200);
-
+        URL.revokeObjectURL(url);
       } catch (err) {
         alert('SVG export failed: ' + err.message);
-        console.error('exportVectorSVG:', err);
       } finally {
         saveBtn.textContent = origLabel;
         saveBtn.disabled = false;
       }
     }
-
-      document.getElementById('shareBtn').addEventListener('click', async function() {
-        const resultText = document.getElementById('dst').value;
-        if (!resultText) {
-          alert('No result to share. Please transliterate first.');
-          return;
-        }
-
-        const fontSize = currentFontSize;
-        const padding = 40;
-        const lineHeight = fontSize * 1.5;
-
-        const tempCanvas = document.createElement('canvas');
-        const tempCtx = tempCanvas.getContext('2d');
-        tempCtx.font = fontSize + 'px "SheekBakriSaphaloo"';
-
-        const maxWidth = 800;
-        const words = resultText.split(' ');
-        const lines = [];
-        let currentLine = '';
-
-        for (const word of words) {
-          const testLine = currentLine ? currentLine + ' ' + word : word;
-          const metrics = tempCtx.measureText(testLine);
-          if (metrics.width > maxWidth && currentLine) {
-            lines.push(currentLine);
-            currentLine = word;
-          } else {
-            currentLine = testLine;
-          }
-        }
-        if (currentLine) lines.push(currentLine);
-
-        const textWidth = Math.max(...lines.map(line => tempCtx.measureText(line).width));
-        const textHeight = lines.length * lineHeight;
-
-        const boxWidth = Math.ceil(textWidth + padding * 2);
-        const boxHeight = Math.ceil(textHeight + padding * 2);
-
-        const canvas = document.createElement('canvas');
-        canvas.width = boxWidth;
-        canvas.height = boxHeight;
-        const ctx = canvas.getContext('2d');
-
-        ctx.fillStyle = '#f5f5f7';
-        ctx.fillRect(0, 0, boxWidth, boxHeight);
-
-        ctx.fillStyle = '#3d3d3f';
-        ctx.font = fontSize + 'px "SheekBakriSaphaloo", "Noto Sans Ethiopic", sans-serif';
-
-        let y = padding + fontSize;
-        for (const line of lines) {
-          ctx.fillText(line, padding, y);
-          y += lineHeight;
-        }
-
-        canvas.toBlob(async function(blob) {
-          if (!blob) {
-            alert('Could not create image. Please try again.');
-            return;
-          }
-
-          const file = new File([blob], 'sheek-bakrii-translation.png', { type: 'image/png' });
-
-          if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
-            try {
-              await navigator.share({
-                files: [file],
-                title: 'Sheek Bakrii Translation',
-                text: resultText
-              });
-            } catch (err) {
-              if (err.name !== 'AbortError') {
-                alert('Share failed. Please try saving instead.');
-              }
-            }
-          } else if (navigator.share) {
-            try {
-              await navigator.share({
-                title: 'Sheek Bakrii Translation',
-                text: resultText
-              });
-            } catch (err) {
-              if (err.name !== 'AbortError') {
-                const link = document.createElement('a');
-                link.download = 'sheek-bakrii-translation.png';
-                link.href = canvas.toDataURL('image/png');
-                link.click();
-              }
-            }
-          } else {
-            const link = document.createElement('a');
-            link.download = 'sheek-bakrii-translation.png';
-            link.href = canvas.toDataURL('image/png');
-            link.click();
-          }
-        }, 'image/png');
-      });
 
     document.addEventListener('keydown', function(e) {
       if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
@@ -1368,6 +904,79 @@ ${labelLines}
         closePrivacyModal();
       }
     });
+
+    const HISTORY_KEY = 'bakrii_history';
+
+    function getHistory() {
+      try { return JSON.parse(localStorage.getItem(HISTORY_KEY)) || []; }
+      catch { return []; }
+    }
+
+    function saveHistory(src, dst) {
+      const history = getHistory();
+      history.unshift({ src, dst, time: Date.now() });
+      if (history.length > 20) history.length = 20;
+      localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+      renderHistory();
+    }
+
+    document.addEventListener('bakrii-transliterated', function(e) {
+      saveHistory(e.detail.src, e.detail.dst);
+      dstEl.dispatchEvent(new Event('input'));
+    });
+
+    function renderHistory() {
+      const history = getHistory();
+      const list = document.getElementById('historyList');
+      const section = document.getElementById('historySection');
+
+      if (!history.length) {
+        list.innerHTML = '<div class="history-empty">No translations yet</div>';
+        return;
+      }
+
+      list.innerHTML = history.map(function(item, i) {
+        const ago = timeAgo(item.time);
+        return '<div class="history-item" data-index="' + i + '">' +
+          '<span class="history-text">' + escapeHtml(item.src) + '</span>' +
+          '<span class="history-time">' + ago + '</span>' +
+        '</div>';
+      }).join('');
+
+      list.querySelectorAll('.history-item').forEach(function(el) {
+        el.addEventListener('click', function() {
+          const idx = parseInt(this.dataset.index);
+          const item = history[idx];
+          if (item) {
+            srcEl.value = item.src;
+            dstEl.value = item.dst;
+            srcEl.dispatchEvent(new Event('input'));
+            dstEl.dispatchEvent(new Event('input'));
+          }
+        });
+      });
+    }
+
+    function timeAgo(ts) {
+      const diff = Date.now() - ts;
+      if (diff < 60000) return 'just now';
+      if (diff < 3600000) return Math.floor(diff / 60000) + 'm ago';
+      if (diff < 86400000) return Math.floor(diff / 3600000) + 'h ago';
+      return Math.floor(diff / 86400000) + 'd ago';
+    }
+
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    document.getElementById('historyClear').addEventListener('click', function() {
+      localStorage.removeItem(HISTORY_KEY);
+      renderHistory();
+    });
+
+    renderHistory();
   </script>
 </body>
 </html>
