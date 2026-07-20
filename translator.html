@@ -797,6 +797,7 @@
     </div>
   </div>
 
+  <script src="opentype.min.js"></script>
   <script src="translator.js"></script>
   <script>
     let currentFontSize = 18;
@@ -943,71 +944,151 @@
 
         ctx.restore();
 
-        const link = document.createElement('a');
+        // SVG vector export is handled separately by exportVectorSVG()
         if (format === 'svg') {
-          const fontSize = currentFontSize;
-          const lineHeight = fontSize * 1.5;
-          const padding = 40;
-          
-          const words = resultText.split(' ');
-          const lines = [];
-          let currentLine = '';
-          
-          const tempCanvas = document.createElement('canvas');
-          const tempCtx = tempCanvas.getContext('2d');
-          tempCtx.font = fontSize + 'px "SheekBakriSaphaloo"';
-          const maxWidth = 800;
-          
-          for (const word of words) {
-            const testLine = currentLine ? currentLine + ' ' + word : word;
-            const metrics = tempCtx.measureText(testLine);
-            if (metrics.width > maxWidth && currentLine) {
-              lines.push(currentLine);
-              currentLine = word;
-            } else {
-              currentLine = testLine;
-            }
-          }
-          if (currentLine) lines.push(currentLine);
-          
-          const textWidth = Math.max(...lines.map(line => tempCtx.measureText(line).width));
-          const textHeight = lines.length * lineHeight;
-          
-          const boxWidth = Math.ceil(textWidth + padding * 2);
-          const boxHeight = Math.ceil(textHeight + padding * 2);
-          
-          let svgContent = `<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${boxWidth}" height="${boxHeight}" viewBox="0 0 ${boxWidth} ${boxHeight}">
-  <defs>
-    <style>
-      @import url('sbs-font-base64.css');
-      .text { font-family: 'SheekBakriSaphaloo', 'Noto Sans Ethiopic', sans-serif; font-size: ${fontSize}px; color: #3d3d3f; }
-    </style>
-  </defs>
-  <rect width="100%" height="100%" fill="#f5f5f7"/>
-  <rect x="0" y="0" width="${boxWidth}" height="${boxHeight}" fill="#f5f5f7" rx="12"/>
-  <foreignObject x="${padding}" y="${padding}" width="${boxWidth - padding * 2}" height="${boxHeight - padding * 2}">
-    <div xmlns="http://www.w3.org/1999/xhtml" style="font-family: 'SheekBakriSaphaloo', 'Noto Sans Ethiopic', sans-serif; font-size: ${fontSize}px; color: #3d3d3f; line-height: ${lineHeight}px; white-space: pre-wrap;">${escapeXml(resultText)}</div>
-  </foreignObject>
-</svg>`;
-          
-          let y = padding + fontSize;
-          for (const line of lines) {
-            svgContent += '  <text x="' + padding + '" y="' + y + '" class="text">' + escapeXml(line) + '</text>\n';
-            y += lineHeight;
-          }
-          
-          svgContent += '</svg>';
-          
-          const blob = new Blob([svgContent], { type: 'image/svg+xml' });
-          link.download = 'sheek-bakrii-' + Date.now() + '.svg';
-          link.href = URL.createObjectURL(blob);
-        } else {
-          link.download = 'sheek-bakrii-' + (format || 'original') + '.png';
-          link.href = canvas.toDataURL('image/png');
+          exportVectorSVG(resultText);
+          return;
         }
+
+        const link = document.createElement('a');
+        link.download = `sheek-bakrii-${format || 'original'}.png`;
+        link.href = canvas.toDataURL('image/png');
         link.click();
       }
+
+    /* ── Vector SVG export via opentype.js ─────────────────────────
+       Produces true Bézier outlines — no font installation required.
+       Each SBS glyph → <path d="…">, Latin Qubee → <text> labels.
+    ──────────────────────────────────────────────────────────────── */
+    let _sbsFont = null; // cached parsed font
+
+    async function loadSbsFont() {
+      if (_sbsFont) return _sbsFont;
+      const cssText = await fetch('sbs-font-base64.css').then(r => r.text());
+      const m = cssText.match(/base64,([A-Za-z0-9+/=]+)/);
+      if (!m) throw new Error('Font base64 not found in sbs-font-base64.css');
+      // Decode base64 → Uint8Array → ArrayBuffer
+      const bin = atob(m[1]);
+      const buf = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) buf[i] = bin.charCodeAt(i);
+      _sbsFont = opentype.parse(buf.buffer);
+      return _sbsFont;
+    }
+
+    async function exportVectorSVG(sbsText) {
+      const saveBtn = document.getElementById('saveBtn');
+      const origLabel = saveBtn.textContent;
+      saveBtn.textContent = 'Generating SVG…';
+      saveBtn.disabled = true;
+
+      try {
+        const font = await loadSbsFont();
+
+        // ── Layout ──────────────────────────────────────────────
+        const FONT_SIZE  = 96;
+        const PAD        = 28;
+        const LABEL_GAP  = 10;   // px below descender line
+        const LABEL_SIZE = 11;
+        const upm        = font.unitsPerEm;
+        const ascender   = (font.ascender  / upm) * FONT_SIZE;
+        const descender  = Math.abs(font.descender / upm) * FONT_SIZE;
+        const baseline   = PAD + ascender;
+
+        // ── Collect glyph data ───────────────────────────────────
+        const chars = [...sbsText];          // iterate by codepoint
+        let cursorX = PAD;
+        const glyphs = [];
+
+        for (const ch of chars) {
+          const glyph = font.charToGlyph(ch);
+          if (!glyph) continue;
+          const adv   = (glyph.advanceWidth / upm) * FONT_SIZE;
+          const path  = font.getPath(ch, cursorX, baseline, FONT_SIZE);
+          // Get Latin equivalent for the label
+          const latin = (typeof sbsToLatin === 'function')
+            ? sbsToLatin(ch)
+            : ch;
+          glyphs.push({ path, x: cursorX, adv, latin });
+          cursorX += adv;
+        }
+
+        if (!glyphs.length) throw new Error('No glyphs could be rendered for this text.');
+
+        // ── Dimensions ──────────────────────────────────────────
+        const totalW = cursorX + PAD;
+        const labelY = baseline + descender + LABEL_GAP + LABEL_SIZE;
+        const totalH = labelY + PAD;
+
+        // ── Compound path (all glyphs merged) ───────────────────
+        const compoundD = glyphs
+          .map(g => g.path.toPathData(3))
+          .join(' ');
+
+        // ── Glyph separator lines (subtle, helpful in Illustrator)
+        const separators = glyphs.slice(0, -1).map(g => {
+          const lx = (g.x + g.adv).toFixed(2);
+          const y1 = PAD.toFixed(2);
+          const y2 = (baseline + descender).toFixed(2);
+          return `  <line x1="${lx}" y1="${y1}" x2="${lx}" y2="${y2}" stroke="#dddddd" stroke-width="0.5" stroke-dasharray="2,2"/>`;
+        }).join('\n');
+
+        // ── Latin labels ─────────────────────────────────────────
+        const labelLines = glyphs.map(g => {
+          const cx = (g.x + g.adv / 2).toFixed(2);
+          return `    <text x="${cx}" y="${labelY.toFixed(2)}" text-anchor="middle" ` +
+            `font-family="Arial, Helvetica, sans-serif" font-size="${LABEL_SIZE}" fill="#999999">${escapeXml(g.latin)}</text>`;
+        }).join('\n');
+
+        // ── Baseline rule ────────────────────────────────────────
+        const baselineRule = `  <line x1="${PAD}" y1="${baseline.toFixed(2)}" x2="${(totalW - PAD).toFixed(2)}" ` +
+          `y2="${baseline.toFixed(2)}" stroke="#eeeeee" stroke-width="0.5"/>`;
+
+        // ── Assemble SVG ─────────────────────────────────────────
+        const latinSrc = glyphs.map(g => g.latin).join('');
+        const svg = `<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Bakrii Translator <https://github.com/archimatrix47-design/Bakrii-Translator> -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1"
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     viewBox="0 0 ${totalW.toFixed(2)} ${totalH.toFixed(2)}"
+     width="${totalW.toFixed(2)}"
+     height="${totalH.toFixed(2)}">
+  <title>${escapeXml(latinSrc)}</title>
+  <desc>Sheek Bakrii Saphaloo — vector outlines. Latin Qubee: ${escapeXml(latinSrc)}</desc>
+
+  <!-- Baseline & glyph separators (guides) -->
+${baselineRule}
+${separators}
+
+  <!-- SBS glyph outlines — compound path, editable as shapes in Illustrator -->
+  <path id="sbs-glyphs" d="${compoundD}" fill="#1a1a1a" fill-rule="nonzero"/>
+
+  <!-- Latin Qubee labels -->
+  <g id="qubee-labels">
+${labelLines}
+  </g>
+</svg>`;
+
+        // ── Trigger download ─────────────────────────────────────
+        const slug = latinSrc.replace(/\s+/g, '-').replace(/[^a-z0-9-]/gi, '').toLowerCase();
+        const blob = new Blob([svg], { type: 'image/svg+xml' });
+        const url  = URL.createObjectURL(blob);
+        const a    = document.createElement('a');
+        a.href     = url;
+        a.download = `sbs-${slug || Date.now()}.svg`;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 200);
+
+      } catch (err) {
+        alert('SVG export failed: ' + err.message);
+        console.error('exportVectorSVG:', err);
+      } finally {
+        saveBtn.textContent = origLabel;
+        saveBtn.disabled = false;
+      }
+    }
 
       document.getElementById('shareBtn').addEventListener('click', async function() {
         const resultText = document.getElementById('dst').value;
