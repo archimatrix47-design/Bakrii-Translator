@@ -493,9 +493,8 @@
 
   <nav class="navbar">
     <div class="navbar-content">
-      <a href="index.html" class="nav-logo"><img src="logo.svg" alt="Bakrii"></a>
+      <a href="translator.html" class="nav-logo"><img src="logo.svg" alt="Bakrii"></a>
       <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
         <li><a href="translator.html" class="active">Translate</a></li>
         <li><a href="about.html">About</a></li>
       </ul>
@@ -513,9 +512,9 @@
         <div class="font-controls">
           <span class="font-label">Font Size</span>
           <div class="font-size-control">
-            <button class="font-btn" onclick="adjustFontSize(-2)" aria-label="Decrease font size">−</button>
+            <button class="font-btn" onclick="adjustFontSize(-2)" aria-label="Decrease font size"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
             <span class="font-value" id="fontValue">18px</span>
-            <button class="font-btn" onclick="adjustFontSize(2)" aria-label="Increase font size">+</button>
+            <button class="font-btn" onclick="adjustFontSize(2)" aria-label="Increase font size"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
           </div>
         </div>
       </div>
@@ -536,7 +535,7 @@
         <button id="copyBtn">Copy</button>
         <button id="clearBtn">Clear</button>
         <div class="save-dropdown">
-          <button id="saveBtn">Export ▾</button>
+          <button id="saveBtn">Export <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button>
           <div class="save-menu" id="saveMenu">
             <button data-format="original">Original Size</button>
             <button data-format="instagram">Instagram (1080×1350)</button>

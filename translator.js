@@ -4550,14 +4550,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const isSbs = (cp >= 0xE000 && cp <= 0xF8FF) || (cp >= 0x1C800 && cp <= 0x1CB2B);
     const out = isSbs ? sbsToLatin(src) : latinToSbs(src);
     dstTa.value = out;
-    const dir = isSbs ? 'SBS → Latin' : 'Latin → SBS';
-    setStatus('ok', `Transliterated (${dir}) – ${src.length} source chars → ${out.length} result chars.`);
+    const dir = isSbs ? 'SBS to Latin' : 'Latin to SBS';
+    setStatus('ok', `Transliterated (${dir}) – ${src.length} source chars, ${out.length} result chars.`);
 
     if (typeof saveHistory === 'function') {
       saveHistory(src, out);
     } else {
       document.dispatchEvent(new CustomEvent('bakrii-transliterated', { detail: { src, dst: out } }));
     }
+
+    validate();
   }
 
   function validate() {
